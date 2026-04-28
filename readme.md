@@ -45,6 +45,7 @@ These fields are automatically added from the command context.
     - Anything inside `.data` in the entity
 - Message (**msg**)
 - Function (**fn**)
+- Log **Level**
 
 ### Disabling
 
@@ -53,6 +54,8 @@ Just delete `data/log/tags/function`,
 and rename `data/log/tags/empty_function` > `data/log/tags/function`.  
 This replaces all tagged functions *(which you should be using)* to empty tags.  
 Which in process makes all your logging calls useless while not erroring your datapack *(like if you removed the `log` datapack)*.  
+
+Optionally you could `replace` the tags in a higher priority datapack.  
 
 ### How?
 
@@ -82,8 +85,99 @@ Any amount of logs can be sent in the same game tick and will thus share the sam
 ## Capturing
 
 This project also contains a Rust library and binary that captures & extracts the logs.  
-Optionally outputting it via `tracing`.  
+Optionally outputting it via [`tracing`](https://github.com/tokio-rs/tracing).  
 
 This can be found in `mclog_capture`.   
 
-**TODO**
+### Binary
+
+If you don't want to deal with using the library and just want to capture the logs in a nice way.  
+This makes it super easy.  
+
+This binary; `mclog`, captures all logs and sends them to:  
+- `Stdout`: Your console window
+- `mclog.log`: A log file if all captured logs
+- `mclog.json`: A JSON structured version of `mclog.log`
+
+The binary has a few ways to search for your `latest.log` file: *(Order of priority)*
+- CLI Argument  
+    Example: `mclog.exe "../../latest.log"`
+- Environment Variable  
+    Any path inside `LATEST_LOG` is used.  
+    These can be in your system or in a `.env` file in the same folder.  
+    ```sh
+    # .env
+    LATEST_LOG = "F:/.minecraft/logs/latest.log"
+    ```
+- Current Folder  
+    If the `latest.log` is in the same folder as the binary it will use that.  
+- Folder traversing  
+    If any parent folders from the binary is a `.minecraft` folder,  
+    it will go from there and into `.minecraft/logs/latest.log` and use that.  
+
+All of this means that you can simply put the capturing binary inside your datapack folder.  
+Run it and it will capture all logs from your Minecraft instance correctly. 
+
+You can download it here: **[Releases](https://github.com/VilleOlof/mclog/releases)**
+
+#### Build
+
+Or build it yourself with [Rust](https://rust-lang.org/learn/get-started/)
+
+```sh
+cargo build --release
+```
+
+### Library
+
+If you want to customize your logs or send it to a service or anything else.  
+You'd want to use the library and let it just capture the logs for you to handle.  
+
+Theres 2 ways to use the library depending on if you want to use `tracing` or not.  
+
+#### `mclog_capture::log_with_tracing`
+Enabled by default with the `tracing` feature flag.  
+
+This function does *everything* for you, capturing, parsing and logging to tracing.  
+Which means you only need to customize your tracing subscribers and call this function.  
+
+```rust
+// example which captures logs for 10 seconds with tracing
+let sub = tracing_subscriber::FmtSubscriber::builder()
+    .with_max_level(Level::TRACE)
+    .finish();
+tracing::subscriber::set_global_default(sub).unwrap();
+
+let _handle = log_with_tracing("latest.log", WatchConfig::default());
+sleep(Duration::from_secs(10));
+exit(0);
+```
+
+This is how the `mclog` binary works, just a pre-customized tracing with this function.  
+
+#### `mclog_capture::log`
+
+This skips any use of `tracing`.  
+It does all the capturing and calls one of your functions on every log captured.  
+
+```rust
+let _handle = log(
+    "latest.log",
+    WatchConfig::default(), 
+    |log| {
+        println!("{log:?}");
+        Ok(())
+    }
+);
+```
+
+#### `mclog_capture::parse_log_line`
+
+This is as barebones as you get, this *only* parses a line from the log file into structured data.  
+
+```rust
+let line = r#"[22:03:52] [Server thread/INFO]: Test log (at BlockPos{x=0, y=0, z=0}): { ... }"#;
+
+// second argument is the identifier after `[Server thread/INFO]:`
+let log = parse_log_line(line, "Test log")?.unwrap();
+```

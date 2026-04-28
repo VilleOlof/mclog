@@ -9,6 +9,17 @@ serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 vanity_nbt = { version = "0.1.0", features = ["serde"] }
 uuid = { version = "1.23", features = ["serde"] }
-
-[dev-dependencies]
+tokio = { version = "1.52", features = ["full"] }
+thiserror = "2"
+tracing = { version = "0.1.44" }
+tracing-subscriber = { version = "0.3.0", features = ["json", "env-filter"] }
 dotenvy = "0.15"
+
+[[bin]]
+name = "mclog"
+test = false
+bench = false
+
+[features]
+default = ["tracing"]
+tracing = []

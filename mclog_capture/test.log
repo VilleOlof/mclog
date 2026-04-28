@@ -1,0 +1,6 @@
+[21:57:54] [Server thread/INFO]: [Piglin: Running function log:info]
+[21:57:54] [Render thread/INFO]: [System] [CHAT] Running function log:info
+[21:57:54] [Server thread/INFO]: Test log (at BlockPos{x=0, y=0, z=0}): {dimension:"minecraft:the_nether",entity:{data:{},type:"minecraft:piglin",uuid:[I;-1231584814,194856865,-1904308909,-1935007872]},function:"",level:"info",message:8,pos:[35.261990417932275d,62.0d,-132.43655231294312d],rotation:[74.59009f,0.0f],tick:207763}
+[22:03:52] [Server thread/INFO]: [Strider: Running function log:info]
+[22:03:52] [Render thread/INFO]: [System] [CHAT] Running function log:info
+[22:03:52] [Server thread/INFO]: Test log (at BlockPos{x=0, y=0, z=0}): {dimension:"minecraft:the_nether",entity:{data:{},type:"minecraft:strider",uuid:[I;708058240,1249460478,-1242277786,-1479674079]},function:"",level:"debug",message:4,pos:[48.85532671246025d,31.5d,216.05128437728382d],rotation:[38.3748f,0.0f],tick:214918}
