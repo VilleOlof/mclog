@@ -88,6 +88,7 @@ This project also contains a Rust library and binary that captures & extracts th
 Optionally outputting it via [`tracing`](https://github.com/tokio-rs/tracing).  
 
 This can be found in `mclog_capture`.   
+You can download it here: **[Releases](https://github.com/VilleOlof/mclog/releases)**
 
 ### Binary
 
@@ -117,8 +118,6 @@ The binary has a few ways to search for your `latest.log` file: *(Order of prior
 
 All of this means that you can simply put the capturing binary inside your datapack folder.  
 Run it and it will capture all logs from your Minecraft instance correctly. 
-
-You can download it here: **[Releases](https://github.com/VilleOlof/mclog/releases)**
 
 #### Build
 
