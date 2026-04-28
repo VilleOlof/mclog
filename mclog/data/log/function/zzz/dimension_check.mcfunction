@@ -1,0 +1,4 @@
+execute at @s if predicate {condition:"minecraft:location_check",predicate:{dimension:"minecraft:overworld"}} run data modify storage log out.dimension set value "minecraft:overworld"
+execute at @s if predicate {condition:"minecraft:location_check",predicate:{dimension:"minecraft:the_nether"}} run data modify storage log out.dimension set value "minecraft:the_nether"
+execute at @s if predicate {condition:"minecraft:location_check",predicate:{dimension:"minecraft:the_end"}} run data modify storage log out.dimension set value "minecraft:the_end"
+execute unless data storage log out.dimension run data modify storage log out.dimension set value "unknown"

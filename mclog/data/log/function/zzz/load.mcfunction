@@ -1,0 +1,1 @@
+execute in log:log run forceload add 0 0

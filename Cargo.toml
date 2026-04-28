@@ -1,0 +1,3 @@
+[workspace]
+members = ["mclog_capture"]
+resolver = "3"
