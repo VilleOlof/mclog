@@ -11,6 +11,10 @@ function #log:info {msg: "Look! I'm logging!", fn: "example:fn"}
 ```
 It's that easy to log a piece of data externally outside the game.  
 
+> [!IMPORTANT]  
+> Since this uses `experimental` datapack features *(dimensions)*,  
+> make sure you rejoin your world after adding this datapack.  
+
 `msg` can be any data, a string, a number, an entire object, anything.  
 `fn` should be the function in which this log is called, can also be empty.  
 
