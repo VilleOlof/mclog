@@ -54,7 +54,7 @@ macro_rules! log_event {
             position = ?$log.pos,
             rotation = ?$log.rotation,
             dimension = $log.dimension,
-            entity_data = ?$log.entity.data,
+            entity_data = %vanity_nbt::snbt::Value::Compound($log.entity.data),
             entity_uuid = ?$log.entity.uuid,
             "{}",
             $log.message
