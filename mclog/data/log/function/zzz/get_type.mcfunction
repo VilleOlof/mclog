@@ -7,16 +7,8 @@ execute on vehicle run tag @s add this.vehicle
 tag @s add this
 execute at @s summon area_effect_cloud run tag @s add this.parent
 # we no wan se dis
-data merge entity @n[tag=this.parent] {\
-    Duration:0,\
-    Radius:0,\
-    WaitTime:0,\
-    Age:1,\
-    custom_particle:{\
-        type:"block",\
-        block_state:"air"\
-    }\
-}
+execute as @e[tag=this.parent] run function log:zzz/set_aoe
+
 execute at @s run ride @n[tag=this] mount @n[tag=this.parent]
 tag @s remove this
 
